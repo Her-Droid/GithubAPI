@@ -26,7 +26,7 @@
             <RelativeLayout
                 android:id="@+id/rv_detail"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:background="@drawable/grad"
                 android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +126,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="100dp"
                         android:background="@android:color/holo_blue_bright"
                         android:padding="2dp">
 

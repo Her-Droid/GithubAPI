@@ -34,9 +34,11 @@ class FollowingFragment : Fragment(){
         listFollowAdapter = ListDataFollowAdapter()
         dataFollowing = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         view.rv_follower.adapter = listFollowAdapter
-
-        dataFollowing.getFollowing(act.getUsername().toString()).observe(viewLifecycleOwner, Observer { following ->
-            ListDataFollowAdapter.setData(following)
+        val activity = activity as DetailActivity
+        dataFollowing.getFollowing((activity.getUsername().toString()))
+        dataFollowing.getFollowing
+            .observe(viewLifecycleOwner, Observer {  following ->
+                listFollowAdapter.setData(following as ArrayList<FollowModel>)
             })
         dataFollowing.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading) {

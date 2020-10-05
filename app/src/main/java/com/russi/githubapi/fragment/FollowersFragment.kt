@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_following.view.*
 
 class FollowersFragment : Fragment() {
 
-    private lateinit var dataFollowing: UserViewModel
+    private lateinit var dataFollowers: UserViewModel
     private lateinit var listFollowAdapter: ListDataFollowAdapter
 
     companion object {
@@ -35,23 +35,23 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listFollowAdapter = ListDataFollowAdapter()
-        dataFollowing = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        dataFollowers = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         view.rv_following.adapter = listFollowAdapter
 
-        val act = activity as DetailActivity
-        dataFollowing.getFollower((act.getUsername().toString()))
-        dataFollowing.getFollowers
+        val activity = activity as DetailActivity
+        dataFollowers.getFollower((activity.getUsername().toString()))
+        dataFollowers.getFollowers
             .observe(viewLifecycleOwner, Observer {  followers ->
                 listFollowAdapter.setData(followers as ArrayList<FollowModel>)
             })
-        dataFollowing.loading.observe(viewLifecycleOwner, Observer { loading ->
+        dataFollowers.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading) {
                 progressBar.showLoading()
             } else {
                 progressBar.hideLoading()
             }
         })
-        dataFollowing.message.observe(viewLifecycleOwner, Observer { message ->
+        dataFollowers.message.observe(viewLifecycleOwner, Observer { message ->
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         })
     }

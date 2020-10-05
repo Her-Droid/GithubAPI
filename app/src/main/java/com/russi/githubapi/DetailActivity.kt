@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.russi.githubapi.adapter.ViewPagerDetailAdapter
 import com.russi.githubapi.model.DataUser
+import com.russi.githubapi.model.DetailResponse
 import com.russi.githubapi.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -40,7 +41,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun detailViewModel(username: String) {
         detailUser.getDetailUser(username)
-        val dataUser = intent.getParcelableExtra<DataUser>(EXTRA_DATA)
+        val dataUser = intent.getParcelableExtra<DetailResponse>(EXTRA_DATA)
         detailUser.dataDetailUser.observe(this, Observer { response ->
             detail_followers.text = response.followers.toString()
             detail_following.text = response.following.toString()
