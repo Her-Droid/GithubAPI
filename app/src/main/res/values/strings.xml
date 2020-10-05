@@ -20,7 +20,7 @@
     <string name="user_dashboard">
         {
         \"users\":[{
-        \"username\": \"JakeWharton\",
+        \"login\": \"JakeWharton\",
         \"name\": \"Jake Wharton\",
         \"avatar\": \"@drawable/user1\",
         \"company\": \"Google, Inc.\",
@@ -30,7 +30,7 @@
         \"following\": 12
         },
         {
-        \"username\": \"amitshekhariitbhu\",
+        \"login\": \"amitshekhariitbhu\",
         \"name\": \"AMIT SHEKHAR\",
         \"avatar\": \"@drawable/user2\",
         \"company\": \"@MindOrksOpenSource\",

@@ -6,14 +6,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.russi.githubapi.adapter.ListDataUserAdapter
 import com.russi.githubapi.model.DataUser
 import com.russi.githubapi.model.UserResponse
 import com.russi.githubapi.viewmodel.UserViewModel
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.list_user.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-
+        userViewModel.searchUser("username")
         getUser()
         showLoading()
         searchUser()
@@ -75,14 +79,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getUser() {
-        listData.clear()
-        val listUser = Gson().fromJson(getString(R.string.user_dashboard), UserResponse::class.java)
-        listData.addAll(listUser.users)
-        listDataUserAdapter = ListDataUserAdapter()
-        rv_user.layoutManager = LinearLayoutManager(this)
-        rv_user.adapter = listDataUserAdapter
-
-        listDataUserAdapter.listUser = listData
+        userViewModel.getDetailUser(username.toString())
+        val dataUser = intent.getParcelableExtra<DataUser>(DetailActivity.EXTRA_DATA)
+        userViewModel.searchDataUser.observe(this, Observer { response ->
+            name_user.text = response.toString()
+            username.text = response.toString()
+            Glide.with(this).load(dataUser?.avatarUrl)
+                .into(image_user)
+        })
+        userViewModel.message.observe(this, Observer { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        })
     }
 
 
