@@ -28,7 +28,7 @@ class DetailActivity : AppCompatActivity() {
         viewPagerConfig()
 
         if (intent.hasExtra("username")) {
-            val user = intent.getParcelableExtra<DataUser>("username")
+            val user = intent.getParcelableExtra<DataUser>(EXTRA_DATA)
             if (user?.username?.isNotEmpty()!!) {
                 title = user.username
                 detailViewModel(user.username)
@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun getUsername(): String? {
-        val user = intent?.getParcelableExtra<DataUser>("username")
+        val user = intent?.getParcelableExtra<DataUser>(EXTRA_DATA)
         return if (user?.username?.isNotEmpty()!!) {
             user.username
         } else {

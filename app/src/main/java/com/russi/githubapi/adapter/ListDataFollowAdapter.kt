@@ -24,7 +24,7 @@ class ListDataFollowAdapter(private var listDataFollow: ArrayList<FollowModel> =
         }
     }
 
-    fun setData(view: ArrayList<FollowModel>) {
+    fun setData(view: List<FollowModel>) {
         listDataFollow.clear()
         listDataFollow.addAll(view)
         notifyDataSetChanged()

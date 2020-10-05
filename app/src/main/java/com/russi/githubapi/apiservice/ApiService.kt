@@ -16,7 +16,7 @@ interface ApiService {
         @Query("q") username:String?
     ):Call<SearchResponse>
 
-    @GET("user/{username}")
+    @GET("users/{username}")
     @Headers("Authorization: token cae09a725451032f11d1bdb12a4c02277d1ff088")
     fun detailUser(
         @Path("username") username: String?
