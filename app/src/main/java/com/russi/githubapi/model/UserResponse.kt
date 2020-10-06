@@ -21,7 +21,7 @@ data class DataUser(
     val following: Int = 0,
 
     @SerializedName("name")
-    val name: String = "",
+    var name: String = "",
 
     @SerializedName("company")
     val company: String = "",

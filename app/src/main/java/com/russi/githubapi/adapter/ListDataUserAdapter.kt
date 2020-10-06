@@ -13,23 +13,40 @@ import com.russi.githubapi.DetailActivity.Companion.EXTRA_DATA
 import com.russi.githubapi.R
 import com.russi.githubapi.model.DataUser
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_detail.view.*
 import kotlinx.android.synthetic.main.list_user.view.*
 
 
-class ListDataUserAdapter :
-    RecyclerView.Adapter<ListDataUserAdapter.ViewHolder>() {
+class ListDataUserAdapter(val context: Context, val itemClickListener: ItemClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var listUser = mutableListOf<DataUser>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    private var setData = arrayListOf<DataUser>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var imgUser: CircleImageView = itemView.image_user
-        var nameUser: TextView = itemView.name_user
-        var username: TextView = itemView.username
-        var context: Context = itemView.context
+        private val imgUser: CircleImageView = itemView.image_user
+        private val nameUser: TextView = itemView.name_user
+        private val username: TextView = itemView.username
+
+        fun bind(dataUser: DataUser) {
+            nameUser.text = dataUser.username
+            username.text = String.format(": %s", dataUser.name)
+            Glide.with(context).load(dataUser.avatar).into(imgUser)
+
+            itemView.setOnClickListener {
+                itemClickListener.onItemClickListener(dataUser)
+            }
+        }
+    }
+
+    interface ItemClickListener {
+        fun onItemClickListener(dataUser: DataUser)
+
+    }
+
+    fun setDataUser(User: List<DataUser>) {
+        setData.clear()
+        setData.addAll(User)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,22 +56,18 @@ class ListDataUserAdapter :
     }
 
     override fun getItemCount(): Int {
-        return listUser.size
+        return setData.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataUser: DataUser = listUser[position]
-        Glide.with(holder.context)
-            .load(dataUser.avatarUrl)
-            .into(holder.imgUser)
-        holder.nameUser.text = dataUser.login
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.context, DetailActivity::class.java)
-            intent.putExtra(EXTRA_DATA, dataUser)
-            holder.context.startActivity(intent)
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (getItemViewType(position) == 1) {
+            (holder as ViewHolder).bind(setData[position])
         }
     }
 }
+
+
 
 
 

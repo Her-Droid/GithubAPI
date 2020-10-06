@@ -27,20 +27,16 @@ class DetailActivity : AppCompatActivity() {
         detailUser = ViewModelProvider(this).get(UserViewModel::class.java)
         viewPagerConfig()
 
-        if (intent.hasExtra("username")) {
+        if (intent.hasExtra(EXTRA_DATA)) {
             val user = intent.getParcelableExtra<DataUser>(EXTRA_DATA)
             if (user?.username?.isNotEmpty()!!) {
                 title = user.username
-                detailViewModel(user.username)
+                detailUser.getDetailUser(user.username)
             } else {
                 title = user.login
-                detailViewModel(user.login)
+                detailUser.getDetailUser(user.login)
             }
         }
-    }
-
-    private fun detailViewModel(username: String) {
-        detailUser.getDetailUser(username)
         val dataUser = intent.getParcelableExtra<DetailResponse>(EXTRA_DATA)
         detailUser.dataDetailUser.observe(this, Observer { response ->
             detail_followers.text = response.followers.toString()
@@ -48,10 +44,8 @@ class DetailActivity : AppCompatActivity() {
             Glide.with(this).load(dataUser?.avatarUrl)
                 .into(detail_image)
         })
-        detailUser.message.observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        })
     }
+
 
     private fun viewPagerConfig() {
         val viewPagerDetailAdapter = ViewPagerDetailAdapter(this, supportFragmentManager)
@@ -59,12 +53,4 @@ class DetailActivity : AppCompatActivity() {
         tab_layout.setupWithViewPager(view_pager)
     }
 
-    fun getUsername(): String? {
-        val user = intent?.getParcelableExtra<DataUser>(EXTRA_DATA)
-        return if (user?.username?.isNotEmpty()!!) {
-            user.username
-        } else {
-            user.login
-        }
-    }
 }
