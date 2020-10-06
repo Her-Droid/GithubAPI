@@ -17,6 +17,7 @@ import com.russi.githubapi.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_follower.view.*
 import kotlinx.android.synthetic.main.fragment_following.*
+import kotlinx.android.synthetic.main.fragment_following.view.*
 
 class FollowingFragment : Fragment() {
     private lateinit var dataFollowing: UserViewModel
@@ -43,11 +44,12 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataFollowing = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        val activity = activity as DetailActivity
-        dataFollowing.getFollowing.observe(viewLifecycleOwner, Observer { following ->
+        val activity  = activity as DetailActivity
+        dataFollowing.getFollowing(activity.getUsername().toString())
+        dataFollowing.getFollowing.observe(viewLifecycleOwner, Observer{ following ->
             listFollowAdapter = ListDataFollowAdapter()
-            view.rv_follower.adapter = listFollowAdapter
-            view.rv_follower.layoutManager = LinearLayoutManager(context)
+            view.rv_following.adapter = listFollowAdapter
+            view.rv_following.layoutManager = LinearLayoutManager(context)
             listFollowAdapter.setData(following)
         })
         dataFollowing.loading.observe(viewLifecycleOwner, Observer { loading ->

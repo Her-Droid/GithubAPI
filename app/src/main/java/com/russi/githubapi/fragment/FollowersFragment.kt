@@ -47,6 +47,8 @@ class FollowersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         dataFollowers = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
+        val activity  = activity as DetailActivity
+        dataFollowers.getFollower(activity.getUsername().toString())
         dataFollowers.getFollowers.observe(viewLifecycleOwner, Observer{ followers ->
             listFollowAdapter = ListDataFollowAdapter()
             view.rv_follower.adapter = listFollowAdapter

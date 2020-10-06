@@ -36,7 +36,7 @@ data class DataUser(
     val repository: Int = 0,
 
     @SerializedName("username")
-    var username: String = "",
+    val username: String = "",
 
     @SerializedName("login")
     var login: String = "",
